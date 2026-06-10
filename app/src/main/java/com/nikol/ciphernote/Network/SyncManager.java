@@ -36,7 +36,7 @@ public class SyncManager {
                         for (NoteDto dto : serverNotes) {
                             Notes localNote = database.mainDAO().getNoteById(dto.id);
                             if (localNote == null || dto.updatedAt > localNote.updatedAt) {
-                                // Update local from server
+                                // update local from server
                                 Notes note = new Notes();
                                 note.id = dto.id;
                                 note.setUser(dto.username);
