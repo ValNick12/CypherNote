@@ -17,7 +17,7 @@ public interface MainDAO {
     @Insert(onConflict = REPLACE)
     void insert(Notes notes);
 
-     @Insert(onConflict = REPLACE)
+    @Insert(onConflict = REPLACE)
     void insert_profile(Profiles profile);
 
     @Query("SELECT * FROM notes WHERE user = :username AND deleted = 0 ORDER BY updated_at DESC")

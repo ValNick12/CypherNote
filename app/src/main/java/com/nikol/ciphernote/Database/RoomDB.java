@@ -21,7 +21,6 @@ public abstract class RoomDB extends RoomDatabase {
                     database = Room.databaseBuilder(context.getApplicationContext(),
                                     RoomDB.class, DATABASE_NAME)
                             .allowMainThreadQueries()
-                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

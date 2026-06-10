@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             profile.token = auth.token;
                             profile.keySalt = auth.keySalt;
-                            profile.password_hash = passwordHash; // Local cache of deterministic hash
+                            profile.password_hash = passwordHash;
                             database.mainDAO().insert_profile(profile);
 
                             SessionManager.getInstance().deriveMasterKeyWithSalt(password, auth.keySalt);
