@@ -1,6 +1,6 @@
 ![logo (Custom)](https://github.com/user-attachments/assets/83e103ec-d9ec-463a-b93f-68c479b18874)
 
---> CipherNote is a secure Android note-taking application focused on privacy and simplicity.    
+--> CypherNote is a secure Android note-taking application focused on privacy and simplicity.    
 It allows users to create, store, and manage encrypted notes directly on their device, helping keep sensitive information protected from unauthorized access.
 
 --> Key Features
