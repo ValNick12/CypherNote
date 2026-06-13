@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 //    private static final String BASE_URL = "http://192.168.1.5:3000"; //Home_laptop
-//    private static final String BASE_URL = "http://192.168.1.4:3000"; //Home_desktop
+//    private static final String BASE_URL = "http://192.168.1.5:3000"; //Home_desktop
     private static final String BASE_URL = "http://172.20.10.5:3000"; //Hotspot_laptop
     private static Retrofit retrofit = null;
     private static String authToken = null;
