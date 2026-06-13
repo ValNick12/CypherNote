@@ -142,7 +142,7 @@ public class Notes implements Serializable {
 
     public static byte[] generateRawKey() {
         SecureRandom secureRandom = new SecureRandom();
-        byte[] key = new byte[16];
+        byte[] key = new byte[32];
         secureRandom.nextBytes(key);
         return key;
     }
