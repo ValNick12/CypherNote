@@ -28,8 +28,8 @@ public final class AesEncryption {
     }
 
     public byte[] encrypt(byte[] rawEncryptionKey, byte[] rawData, @Nullable byte[] associatedData) throws Exception {
-        if (rawEncryptionKey.length < 32) {
-            throw new IllegalArgumentException("key length must be longer than 32 bytes");
+        if (rawEncryptionKey.length < 16) {
+            throw new IllegalArgumentException("key length must be longer than 16 bytes");
         }
 
         byte[] iv;
