@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.nikol.ciphernote.Model.Notes;
 import com.nikol.ciphernote.Model.Profiles;
+import com.nikol.ciphernote.Cryptography.SessionManager;
 
 public class NotesTakingActivity extends AppCompatActivity {
 
@@ -53,6 +54,12 @@ public class NotesTakingActivity extends AppCompatActivity {
         }
 
         imageView_save.setOnClickListener(v -> {
+            if (SessionManager.getInstance().getMasterKey() == null) {
+                Toast.makeText(NotesTakingActivity.this, "Session expired! Please log in again.", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+
             String title = editText_title.getText().toString();
             String note_text = editText_notes.getText().toString();
             if (note_text.isEmpty()) {
@@ -60,7 +67,7 @@ public class NotesTakingActivity extends AppCompatActivity {
                 return;
             }
 
-            if (!isOldNote){
+            if (!isOldNote && note == null){
                 note = new Notes();
                 note.initializeNewNote();
             }

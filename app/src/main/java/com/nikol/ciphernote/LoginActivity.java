@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                         }).start();
                     } else {
                         runOnUiThread(() -> {
-                            Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Wrong credentials!", Toast.LENGTH_SHORT).show();
                             loginButton.setVisibility(View.VISIBLE);
                             progressBar.setVisibility(View.GONE);
                         });

@@ -1,5 +1,6 @@
 package com.nikol.ciphernote.Model;
 
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -44,14 +45,17 @@ public class Notes implements Serializable {
         this.updatedAt = System.currentTimeMillis();
 
         byte[] masterKey = SessionManager.getInstance().getMasterKey();
-        if (masterKey == null) return;
+        if (masterKey == null) {
+            Log.e("Notes", "Could not initialize note: Master key is null");
+            return;
+        }
 
         byte[] rawKey = generateRawKey();
         try {
             this.key = aesEncryption.encrypt(masterKey, rawKey, null);
             this.cachedDecryptedKey = rawKey;
         } catch (Exception e) {
-            throw new RuntimeException("Could not initialize note key", e);
+            Log.e("Notes", "Could not initialize note key", e);
         }
     }
 
@@ -86,10 +90,13 @@ public class Notes implements Serializable {
         }
         try {
             byte[] rawKey = getDecryptedKey();
-            if (rawKey == null) throw new RuntimeException("Key not available");
+            if (rawKey == null) {
+                Log.e("Notes", "Could not set title: Key not available");
+                return;
+            }
             this.title = aesEncryption.encrypt(rawKey, title.getBytes(StandardCharsets.UTF_8), null);
         } catch (Exception e) {
-            throw new RuntimeException("Didn't set title", e);
+            Log.e("Notes", "Could not set title", e);
         }
     }
 
@@ -111,10 +118,13 @@ public class Notes implements Serializable {
         }
         try {
             byte[] rawKey = getDecryptedKey();
-            if (rawKey == null) throw new RuntimeException("Key not available");
+            if (rawKey == null) {
+                Log.e("Notes", "Could not set note: Key not available");
+                return;
+            }
             this.note = aesEncryption.encrypt(rawKey, note.getBytes(StandardCharsets.UTF_8), null);
         } catch (Exception e) {
-            throw new RuntimeException("Didn't set note", e);
+            Log.e("Notes", "Could not set note", e);
         }
     }
 
@@ -139,7 +149,7 @@ public class Notes implements Serializable {
 
     public static byte[] generateRawKey() {
         SecureRandom secureRandom = new SecureRandom();
-        byte[] key = new byte[16];
+        byte[] key = new byte[32];
         secureRandom.nextBytes(key);
         return key;
     }
