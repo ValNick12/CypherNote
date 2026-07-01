@@ -1,6 +1,8 @@
 package com.nikol.ciphernote.Network;
 
 import android.content.Context;
+import android.content.Intent;
+import android.widget.Toast;
 import android.util.Base64;
 import android.util.Log;
 
@@ -9,6 +11,8 @@ import com.nikol.ciphernote.Model.Notes;
 import com.nikol.ciphernote.Network.Req.DeleteNoteRequest;
 import com.nikol.ciphernote.Network.Req.UpsertNoteRequest;
 import com.nikol.ciphernote.Network.Res.NotesResponse;
+import com.nikol.ciphernote.Cryptography.SessionManager;
+import com.nikol.ciphernote.LoginActivity;
 
 import java.util.List;
 
@@ -52,6 +56,12 @@ public class SyncManager {
                     }).start();
                 } else {
                     Log.e(TAG, "Failed to fetch notes: " + response.code());
+
+                    if (response.code() == 401 || response.code() == 403) {
+                        handleExpiredToken();
+                        return;
+                    }
+
                     if (onComplete != null) onComplete.run();
                 }
             }
@@ -78,6 +88,10 @@ public class SyncManager {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Failed to upsert note: " + response.code());
+
+                    if (response.code() == 401 || response.code() == 403) {
+                        handleExpiredToken();
+                    }
                 }
             }
 
@@ -95,6 +109,10 @@ public class SyncManager {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Failed to delete note: " + response.code());
+
+                    if (response.code() == 401 || response.code() == 403) {
+                        handleExpiredToken();
+                    }
                 }
             }
 
@@ -103,5 +121,16 @@ public class SyncManager {
                 Log.e(TAG, "Delete failed", t);
             }
         });
+    }
+
+    private void handleExpiredToken() {
+        SessionManager.getInstance().clear();
+        RetrofitClient.setAuthToken(null);
+
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+
+        Toast.makeText(context, "Session expired. Please log in again.", Toast.LENGTH_SHORT).show();
     }
 }

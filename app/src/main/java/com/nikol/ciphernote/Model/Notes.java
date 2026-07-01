@@ -29,13 +29,10 @@ public class Notes implements Serializable {
     String user = "";
     @ColumnInfo(name = "key")
     public byte[] key;
-
     @ColumnInfo(name = "updated_at")
     public long updatedAt;
-
     @ColumnInfo(name = "deleted")
     public int deleted = 0;
-
     @Ignore
     private transient byte[] cachedDecryptedKey;
 
